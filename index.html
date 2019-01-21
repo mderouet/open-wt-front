@@ -1,116 +1,93 @@
 <!DOCTYPE html>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
-<script src="js/app.js"></script>
-
+<script src="src/app.js"></script>
+<script src="assets/js/ui-bootstrap-2.5.0.min.js"></script>
 <html ng-app="app">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="css/style.css">
+    <!--<link rel="stylesheet" href="assets/css/style.css">-->
+    <title>Open-WT-Front - Derouet Martin</title>
+    <meta name="description" content="Proof of concept simple API for Open-WT">
+    <meta name="author" content="Derouet Martin">
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
 </head>
-
-<body ng-controller="MainCtrl">
-<h3>
+<div ng-controller="MainCtrl">
+    <div class="container">
+<span>
     Open-Wt-Front
-</h3>
-<h1>Authentification</h1>
-<h2>Email</h2>
-<form>
+</span>
 
-    <input type="text" ng-model="email" placeholder="Type your mail" spellcheck="false"/>
+        <h1 class="text-center">Authentification</h1>
+        <div id="step1">
+            <div class="row">
+                <div class="col-lg-6 col-sm-12">
+                    <form>
+                        <div class="form-group">
+                            <label for="email">Email address</label>
+                            <input type="email" ng-model="email" class="form-control" id="email"
+                                   aria-describedby="emailHelp"
+                                   placeholder="Enter email">
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" ng-model="password" class="form-control" id="password"
+                                   placeholder="Password">
+                        </div>
+                        <button type="submit" class="btn btn-primary" ng-click="getToken()">Connexion</button>
+                    </form>
+                </div>
+                <div class="col-lg-6 col-sm-12">
+                    <label for="bearer"><strong>Your Bearer</strong></label>
+                    <input class="form-control mb-3" type="text" ng-model="token" placeholder="Your bearer"
+                           id="bearer" readonly>
 
-    <input type="text" ng-model="password" placeholder="Type your password" spellcheck="false"
-           style="margin-top: 10px;"/>
-    </br>
-    </br>
-    </br>
-    </br>
-
-    <div>
-        <input type="submit" value="LOGIN" ng-click="getToken()"/>
+                    <span><strong>Your informations</strong></span>
+                    <input class="form-control mt-1 mb-1" type="text" ng-model="contact.email" placeholder="Your email"
+                           readonly>
+                    <input class="form-control mt-1 mb-1" type="text" ng-model="contact.firstname"
+                           placeholder="Your firstname">
+                    <input class="form-control mt-1 mb-1" type="text" ng-model="contact.lastname"
+                           placeholder="Your lastname">
+                    <input class="form-control mt-1 mb-1" type="text" ng-model="contact.address"
+                           placeholder="Your address">
+                    <input class="form-control mt-1 mb-1" type="text" ng-model="contact.mobilePhoneNumber"
+                           placeholder="Your mobile number">
+                    <div class="mt-3 d-flex justify-content-around">
+                        <button type="submit" ng-click="getMyInformation()" class="btn btn-primary">Get my
+                            informations
+                        </button>
+                        <button type="submit" class="btn btn-primary" ng-click="changeMyInformations()">Update</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="step2" ng-show="config.step1">
+            <div class="row">
+                <div class="col-lg-12">
+                    <button type="submit" ng-click="getListContacts()" class="btn btn-primary mb-4">Get all contacts
+                    </button>
+                </div>
+            </div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">Fullname</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Phone</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="contact in config.contact">
+                    <td>{{ contact.fullname }}</td>
+                    <td>{{ contact.address }}</td>
+                    <td>{{ contact.email }}</td>
+                    <td>{{ contact.mobilePhoneNumber }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
-
-    <hr ng-class="progressClass"/>
-</form>
-
 </div>
-
-<h1 style="
-    font-size: 13px;
-">{{token}} </h1>
-</br>
-<center>
-    <div>
-        <input type="submit" value="My informations" ng-click="getMyInformation()"/>
-    </br>
-        </br>
-    </div>
-</center>
-</br>
-<form>
-    <input type="text" ng-model="contact.email" placeholder="Type your email" spellcheck="false" disabled="true"/>
-    <input type="text" ng-model="contact.firstname" placeholder="Type your firstname" spellcheck="false"/>
-    <input type="text" ng-model="contact.lastname" placeholder="Type your lastname" spellcheck="false"/>
-    <input type="text" ng-model="contact.address" placeholder="Type your address" spellcheck="false"/>
-    <input type="text" ng-model="contact.mobilePhoneNumber" placeholder="Type your mobile phone" spellcheck="false"/>
-</form>
-</br>
-</br></br></br>
-
-</br>
-</br></br
-</br></br
-</br></br
-<div>
-    <input type="submit" value="Change" ng-click="changeMyInformations()"/>
-</div>
-</br></br</br></br</br></br
-<div>
-    <input type="submit" value="Contacts" ng-click="getListContacts()"/>
-</div>
-</br>
-</br>
-
-<table>
-
-    <thead>
-    <tr>
-        <th>Fullname</th>
-        <th>address</th>
-        <th>email</th>
-        <th>mobilePhoneNumber</th>
-    </tr>
-    </thead>
-
-    <tr ng-repeat="contact in contacts">
-
-        <td>{{ contact.fullname }}</td>
-        <td>{{ contact.address }}</td>
-        <td>{{ contact.email }}</td>
-        <td>{{ contact.mobilePhoneNumber }}</td>
-    </tr>
-</table>
-
-
-<div>
-    <input type="submit" value="Skills" ng-click="getListSkills()"/>
-</div>
-</br>
-</br>
-<table>
-
-    <thead>
-    <tr>
-        <th>Name</th>
-        <th>Level</th>
-    </tr>
-    </thead>
-
-    <tr ng-repeat="skill in skills">
-
-        <td>{{ skill.name }}</td>
-        <td>{{ skill.level }}</td>
-    </tr>
-</table>
-
 </body>
 </html>

@@ -5,10 +5,14 @@ app.controller("MainCtrl", function ($scope, $http) {
     $scope.password = "azerty"
     // We should return userId when logging (when getting token) it's hardcoded here to just give it a shot
     $scope.userId = "4"
-    $scope.token = "NULL"
+    $scope.token = ""
     $scope.contact = "NULL"
     $scope.contacts = "NULL"
     $scope.skills = "NULL"
+    $scope.config = {
+        'step1': false,
+        'contact': null
+    }
 
     $scope.getToken = function () {
         var data =
@@ -16,6 +20,8 @@ app.controller("MainCtrl", function ($scope, $http) {
                 email: $scope.email,
                 password: $scope.password
             };
+
+        $scope.config.step1 = true;
 
         $http.post('http://localhost:8080/secure/login', data).then(function successCallback(response) {
             $scope.token = response.data.token
@@ -32,7 +38,7 @@ app.controller("MainCtrl", function ($scope, $http) {
 
         var req = {
             method: 'GET',
-            url: 'http://localhost:8080/api/contact/'+$scope.userId,
+            url: 'http://localhost:8080/api/contact/' + $scope.userId,
             headers: {
                 'Authorization': $scope.token
             }
@@ -47,8 +53,6 @@ app.controller("MainCtrl", function ($scope, $http) {
     };
 
     $scope.getListContacts = function () {
-
-
         var req = {
             method: 'GET',
             url: 'http://localhost:8080/api/contact/',
@@ -58,8 +62,8 @@ app.controller("MainCtrl", function ($scope, $http) {
         }
 
         $http(req).then(function successCallback(response) {
-            $scope.contacts = response.data
-            console.log($scope.contacts)
+            $scope.config.contact = response.data
+            console.log($scope.config.contact)
         }, function errorCallback(response) {
             console.log(response)
         });
@@ -98,11 +102,11 @@ app.controller("MainCtrl", function ($scope, $http) {
 
         var req = {
             method: 'PUT',
-            url: 'http://localhost:8080/api/contact/'+$scope.userId,
+            url: 'http://localhost:8080/api/contact/' + $scope.userId,
             headers: {
                 'Authorization': $scope.token
             },
-            data:newInformations
+            data: newInformations
         }
         console.log(req)
         $http(req).then(function successCallback(response) {
