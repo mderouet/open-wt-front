@@ -1,4 +1,4 @@
-# ANGULARJSWebService
+# Front
 
 Some horrible html/js as a proof of working api !
 
