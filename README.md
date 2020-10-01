@@ -5,7 +5,7 @@ Some horrible html/js as a proof of working api !
 App img
 ![alt text][appimg]
 
-[appimg]: https://image.noelshack.com/fichiers/2019/04/1/1548096318-capture-d-ecran-2019-01-21-a-19-42-44.png "App image"
+[appimg]: https://i.ibb.co/xsJR2tR/auth.png "App image"
 
 ## Launch
 
