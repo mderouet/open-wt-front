@@ -2,7 +2,6 @@
 
 Some horrible html/js as a proof of working api !
 
-App img
 ![alt text][appimg]
 
 [appimg]: https://i.ibb.co/xsJR2tR/auth.png "App image"
